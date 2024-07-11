@@ -1,0 +1,10 @@
+{
+    "sonarlint.connectedMode.project": {
+      "projectKey": "my-vite-app",
+      "serverId": "my-sonar-server"
+    },
+    "rules": {
+      "javascript:S1128": "on",
+      "javascript:S1481": "on"
+    }
+}  
