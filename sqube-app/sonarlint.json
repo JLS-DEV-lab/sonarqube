@@ -1,7 +1,7 @@
 {
     "sonarlint.connectedMode.project": {
-      "projectKey": "my-vite-app",
-      "serverId": "my-sonar-server"
+      "projectKey": "JLS-DEV-lab_sonarqube",
+      "serverId": "nextgendev"
     },
     "rules": {
       "javascript:S1128": "on",
