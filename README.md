@@ -1,3 +1,7 @@
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=JLS-DEV-lab_sonarqube)
+
+This project is using SonarCloud for enhanced code quality and developer experience.
+
 ## sonarqube-webapp
 
 This repository contains the source code for a simple web application built with [React](https://react.dev/). Initially created for testing DevOps principles with SonarCloud and SonarQube, this project has evolved into a small training project. It is recommended to read this document before starting the development.
