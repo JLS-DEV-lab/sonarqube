@@ -1,6 +1,16 @@
 /* ./ */
-import Homepage from './Homepage';
+import WebsiteWrapper from './WebsiteWrapper';
+import Documentation from './Documentation';
+import BinaryDecisionDiagram from './BinaryDecisionDiagram';
+import NeuralNetworkArchitecture from './NeuralNetworkArchitecture';
+import ConfusionMatrix from './ConfusionMatrix';
+import ReceiverOperationCharactericsCurve from './ReceiverOperationCharactericsCurve';
 
 export {
-    Homepage
+    WebsiteWrapper,
+    Documentation,
+    BinaryDecisionDiagram,
+    NeuralNetworkArchitecture,
+    ConfusionMatrix,
+    ReceiverOperationCharactericsCurve,
 }
