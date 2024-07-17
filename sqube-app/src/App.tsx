@@ -1,25 +1,37 @@
-import { Outlet } from 'react-router-dom'
-import { Homepage } from "@pages";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BinaryDecisionDiagram, ConfusionMatrix, Documentation, NeuralNetworkArchitecture, ReceiverOperationCharactericsCurve, WebsiteWrapper } from "@pages";
 
-function incrementCount(unusedParam) {
-  setCount(count + 1);
-}
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <WebsiteWrapper />,
+    children: [
+      {
+        path: "docs",
+        element: <Documentation />,
+      },
+      {
+        path: "binary-decision-diagram",
+        element: <BinaryDecisionDiagram />,
+      },
+      {
+        path: "neural-network-architecture",
+        element: <NeuralNetworkArchitecture />,
+      },
+      {
+        path: "confusion-matrix",
+        element: <ConfusionMatrix />,
+      },
+      {
+        path: "receiver-operation-characterics-curve",
+        element: <ReceiverOperationCharactericsCurve />,
+      },
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <div>
-      <Outlet
-        context={{
-          /** Refs */
-
-          /** State */
-
-          /** Form data */
-        }}
-      />
-      <Homepage />
-    </div>
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;

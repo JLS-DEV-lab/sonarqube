@@ -1,6 +1,6 @@
 /* ./hero */
-import Hero from './hero/Hero';
+import Hero from "./hero/Hero";
+/* ./navbar */
+import Navbar from "./navbar/Navbar";
 
-export {
-    Hero
-}
+export { Hero, Navbar };
