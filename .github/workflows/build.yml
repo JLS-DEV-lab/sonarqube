@@ -15,9 +15,10 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Install dependencies
         run: npm install
+        working-directory: sqube-app
       - name: Test and coverage
         run: npm run test
-        working-directory: ../../sqube-app
+        working-directory: sqube-app
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
