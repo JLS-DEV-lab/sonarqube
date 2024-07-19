@@ -14,6 +14,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Needed for Vitest testing */
+    "types": ["@testing-library/jest-dom"],
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -30,6 +33,6 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": ["**/src", "**/test", "**/*.config.{js,mjs,ts,mts}"],
+  "include": ["**/src", "**/test", "**/*.config.{js,mjs,ts,mts}", "./vitest.setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
