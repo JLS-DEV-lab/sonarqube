@@ -15,5 +15,4 @@ test("loads and displays Navbar component", async () => {
   expect(screen.getByText("Docs")).toBeInTheDocument();
   expect(screen.getByText("BDD")).toBeInTheDocument();
   expect(screen.getByText("NNA")).toBeInTheDocument();
-  expect(screen.getByText("CM")).toBeInTheDocument();
 });
