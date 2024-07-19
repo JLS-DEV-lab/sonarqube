@@ -17,7 +17,7 @@ jobs:
         run: npm install
         working-directory: sqube-app
       - name: Test and coverage
-        run: npm test --coverage
+        run: npm run coverage
         working-directory: sqube-app
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
