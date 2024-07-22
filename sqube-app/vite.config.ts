@@ -10,7 +10,6 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   cacheDir: ".vite",
   test: {
-    globals: true,
     environment: 'jsdom',
     setupFiles: "./src/setupTests",
     mockReset: true,
