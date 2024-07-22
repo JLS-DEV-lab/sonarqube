@@ -1,5 +1,4 @@
 /// <reference types="vitest" />
-/// <reference types="vitest/globals" />
 
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
@@ -11,8 +10,10 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   cacheDir: ".vite",
   test: {
+    globals: true,
     environment: 'jsdom',
-    setupFiles: ['./vitest.setup.ts'],
+    setupFiles: "./src/setupTests",
+    mockReset: true,
     coverage: {
       reporter: ["text", "lcov"],
       exclude: ["**/.eslintrc.cjs"],
