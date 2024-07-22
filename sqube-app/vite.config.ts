@@ -12,7 +12,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     coverage: {
-      reporter: 'lcovonly',
+      reporter: ['text', 'lcov  '],
+      exclude: ["**/.eslintrc.cjs"],
     }
   },
   resolve: {
