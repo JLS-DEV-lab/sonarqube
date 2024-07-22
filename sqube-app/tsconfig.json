@@ -33,6 +33,6 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": ["**/src", "**/test", "**/*.config.{js,mjs,ts,mts}", "./vitest.setup.ts"],
+  "include": ["**/src", "**/test", "**/*.config.{js,mjs,ts,mts}"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
