@@ -1,0 +1,10 @@
+{
+    "sonarlint.connectedMode.project": {
+      "projectKey": "JLS-DEV-lab_sonarqube",
+      "serverId": "nextgendev"
+    },
+    "rules": {
+      "javascript:S1128": "on",
+      "javascript:S1481": "on"
+    }
+}
