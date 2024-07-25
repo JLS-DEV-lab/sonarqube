@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Homepage } from "@pages";
+import { BinaryDiagram } from "@modules";
 
 const router = createBrowserRouter([
   {
@@ -11,6 +12,7 @@ const router = createBrowserRouter([
       },
       {
         path: "binary-decision-diagram",
+        element: <BinaryDiagram />,
       },
       {
         path: "neural-network-architecture",
@@ -28,8 +30,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
+const App = () => {
   return <RouterProvider router={router} />;
-}
+};
 
 export default App;

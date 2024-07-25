@@ -1,11 +1,11 @@
 // sum.test.js
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest";
 
 // sum.js
-export function sum(a, b) {
-  return a + b
+export function sum(a: number, b: number) {
+  return a + b;
 }
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3)
-})
+test("adds 1 + 2 to equal 3", () => {
+  expect(sum(1, 2)).toBe(3);
+});
