@@ -5,7 +5,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-/*const Homepage = ({ children }: Readonly<Props>) => {
+const Homepage = ({ children }: Readonly<Props>) => {
   return (
     <div className="h-full w-full flex flex-col">
       <Navbar />
@@ -14,12 +14,6 @@ interface Props {
       </main>
     </div>
   );
-};*/
-
-function Homepage () {
-  return (
-    <div>Homepage</div>
-  )
-}
+};
 
 export default Homepage;
