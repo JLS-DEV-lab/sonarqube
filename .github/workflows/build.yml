@@ -22,8 +22,6 @@ jobs:
       - name: Create eslintReports directory
         run: mkdir -p eslintReports
       - name: Create ESLint report
-        run: npx eslint "src/**/*.{ts,tsx}" --format json --output-file eslintReports/eslint-report.json
-      - name: Create ESLint report
         run: |
           npx eslint "src/**/*.{ts,tsx}" --format json --output-file eslintReports/eslint-report.json || (
             echo "ESLint failed. Outputting error log:" && cat eslintReports/eslint-report.json && exit 1
