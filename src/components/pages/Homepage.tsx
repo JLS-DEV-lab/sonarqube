@@ -1,10 +1,17 @@
 import { Navbar } from "@modules";
+import { Outlet } from "react-router-dom";
 
-const Homepage = () => {
+interface Props {
+  children?: React.ReactNode;
+}
+
+const Homepage = ({ children }: Readonly<Props>) => {
   return (
-    <div>
+    <div className="h-full w-full flex flex-col">
       <Navbar />
-      <span>Welcome to SonarQube</span>
+      <main className="flex-grow">
+        {children ?? <Outlet />}
+      </main>
     </div>
   );
 };

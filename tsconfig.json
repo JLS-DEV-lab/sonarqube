@@ -30,6 +30,6 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": ["**/src", "**/test", "**/*.config.{js,mjs,ts,mts}"],
+  "include": ["**/src", "**/tests", "**/*.config.{js,mjs,ts,mts}"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

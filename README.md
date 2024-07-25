@@ -24,7 +24,7 @@ The code is written in TypeScript and requires compilation before delivery. This
 | `@utils/*`  | src/utils/\*            |
 | `@/*`       | src/\*                  |
 
-Code quality is ensured using SonarLint and Prettier. To maintain clean code in line with coding conventions, a SonarQube server checks for non-compliant code using quality gates in PR's and custom rules. For a better developer experience and to learn more about CI/CD with SonarQube, you can either run a local Docker container with your own quality gate (see section 3) or join my SonarCloud test instance (see section 4). Before joining SonarQube or SonarCloud, you need to run SonarLint in your IDE, you have to install the official SonarLint extension from Sonarsource, which is currently only integrated with most JetBrains IDEs including IntelliJ IDEA, CLion, WebStorm, PHPStorm, PyCharm, Rider, Android Studio & RubyMine, and runs on Mac, Windows, and Linux OS, VS Code, VS Studio and Ecplipse (see [sonarLint docs](https://docs.sonarsource.com/sonarlint/intellij/) for installation details). If you've installed SonarLint, new analyses will be triggered in VS Code when you open or save a file, with Autosave in your IDE configured, new issues will be reported as you type and Security Hotspots will be available in SonarLint.
+Code quality is ensured using SonarLint, ESLint and Prettier. To maintain clean code in line with coding conventions, a SonarQube server checks for non-compliant code using quality gates in PR's and custom rules. For a better developer experience and to learn more about CI/CD with SonarQube, you can either run a local Docker container with your own quality gate (see section 3) or join my SonarCloud test instance (see section 4). Before joining SonarQube or SonarCloud, you need to run SonarLint in your IDE, you have to install the official SonarLint extension from Sonarsource, which is currently only integrated with most JetBrains IDEs including IntelliJ IDEA, CLion, WebStorm, PHPStorm, PyCharm, Rider, Android Studio & RubyMine, and runs on Mac, Windows, and Linux OS, VS Code, VS Studio and Ecplipse (see [sonarLint docs](https://docs.sonarsource.com/sonarlint/intellij/) for installation details). If you've installed SonarLint, new analyses will be triggered in VS Code when you open or save a file, with Autosave in your IDE configured, new issues will be reported as you type and Security Hotspots will be available in SonarLint.
 
 ### (option 1) 3. Use Connected Mode for SonarLint with SonarQube (local development)
 
@@ -60,10 +60,16 @@ This is a monorepo, making the installation process straightforward. To get star
 
 This repository is equipped with scripts to build and run the code.
 
-| Script  | Description                                | Comment           |
-| ------- | ------------------------------------------ | ----------------- |
-| `dev`   | starts the application in development mode | default port 5173 |
-| `build` | builds the application for production      |                   |
+| Script     | Description                                                                  | Comment           |
+| ---------- | ---------------------------------------------------------------------------- | ----------------- |
+| `dev`      | starts the application in development mode                                   | default port 5173 |
+| `build`    | builds the application for production                                        |                   |
+| `lint`     | run ESLint to check the .ts and .tsx files for code quality and style issues |                   |
+| `coverage` | run developer tests and create a coverage report file for sonar analysis     |                   |
+
+# Testing
+For a robust developer experience, automated testing for React components has been set up. Tests located in the `tests` folder will be executed in a GitHub build pipeline. Branches can only be merged into the main branch if all tests pass and there is a minimum code coverage of 80%. So it is required to add tests using vitest when creating new components.
+
 
 ## Folder structure
 
@@ -80,3 +86,4 @@ The folder structure in this repository is based on suggestions by vite.js
   - **.types/** - folder to define typescript types
   - **.utils/** - folder for utility code like constants, configs or helper functions
 - **.test/** - folder for test files
+- **.tests/** - main folder for tests (will be executed during build process)
