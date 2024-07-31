@@ -19,8 +19,6 @@ jobs:
         run: npm run coverage
       - name: Check coverage output
         run: cat coverage/lcov.info
-      - name: Create ESLint report
-        run: npx eslint "src/**/*.{ts,tsx}" --format json --output-file eslintReports/eslint-report.json
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
