@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Papa from "papaparse";
 import Tree from "react-d3-tree";
 import { CSVRowData, TreeNode } from "@/types";
+import LOGGER from "@utils/Logger";
 
 /** Function to create a new node */
 const createNode = (row: CSVRowData, level: number): TreeNode => ({
@@ -35,7 +36,7 @@ const processRows = (rows: CSVRowData[], fileName: string): TreeNode => {
 
     for (let level = 0; level <= 4; level++) {
       const partLevel = row[`Part Level ${String(level)}` as keyof CSVRowData];
-      console.log(`Processing level ${String(level)}: ${partLevel}`);
+      LOGGER.info(`Processing level ${String(level)}: ${partLevel}`);
 
       if (!partLevel) break; // If the part level is empty, that's the correct level to stop
 
@@ -43,12 +44,12 @@ const processRows = (rows: CSVRowData[], fileName: string): TreeNode => {
         (child) => child.name === partLevel
       );
 
-      console.log(partLevel);
+      LOGGER.info(partLevel);
 
       if (childNode) {
-        console.log(`Found existing node: ${childNode.name}`);
+        LOGGER.info(`Found existing node: ${childNode.name}`);
       } else {
-        console.log(`Creating new node for: ${partLevel}`);
+        LOGGER.info(`Creating new node for: ${partLevel}`);
         childNode = createNode(row, level);
         currentNode.children.push(childNode);
       }
@@ -79,7 +80,7 @@ const BinaryDiagram: React.FC = () => {
         setTreeData(tree);
       },
       error: function (error) {
-        console.error("Error parsing CSV:", error); //use a custom LOGGER instead
+        LOGGER.info("Error parsing CSV:", error); //use a custom LOGGER instead
       },
     });
   };

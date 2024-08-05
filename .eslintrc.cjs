@@ -37,6 +37,7 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/return-await": "error",
     "no-console": "warn",
     "react/prefer-read-only-props": "warn",
@@ -50,6 +51,10 @@ module.exports = {
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
     ],
     semi: ["error", "always"],
   },
