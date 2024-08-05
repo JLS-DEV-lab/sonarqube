@@ -1,34 +1,7 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import Tree from "react-d3-tree";
-
-/** Interface definition of a single excel row */
-interface CSVRowData {
-  "Node Id": string;
-  "Part Level 0": string;
-  "Part Level 1": string;
-  "Part Level 2": string;
-  "Part Level 3": string;
-  "Part Level 4": string;
-  "Picture": string;
-  "Material Type(s)": string;
-  "Quantity of Parts": string;
-  "Total Weight (kg)": string;
-  "Material Code(s)": string;
-}
-
-/** Type definition of a TreeNode */
-interface TreeNode {
-  name: string;
-  attributes: {
-    picture: string;
-    materialType: string;
-    quantity: string;
-    totalWeight: string;
-    materialCode: string;
-  };
-  children: TreeNode[];
-}
+import { CSVRowData, TreeNode } from "@/types";
 
 /** Function to create a new node */
 const createNode = (row: CSVRowData, level: number): TreeNode => ({
@@ -42,8 +15,6 @@ const createNode = (row: CSVRowData, level: number): TreeNode => ({
   },
   children: [],
 });
-
-
 
 /** Function to process rows and build the tree */
 const processRows = (rows: CSVRowData[], fileName: string): TreeNode => {
@@ -68,7 +39,9 @@ const processRows = (rows: CSVRowData[], fileName: string): TreeNode => {
 
       if (!partLevel) break; // If the part level is empty, that's the correct level to stop
 
-      let childNode = currentNode.children.find(child => child.name === partLevel);
+      let childNode = currentNode.children.find(
+        (child) => child.name === partLevel
+      );
 
       console.log(partLevel);
 
@@ -84,7 +57,7 @@ const processRows = (rows: CSVRowData[], fileName: string): TreeNode => {
     }
   };
 
-  rows.forEach(row => {
+  rows.forEach((row) => {
     addRowToTree(tree, row);
   });
 
@@ -115,10 +88,12 @@ const BinaryDiagram: React.FC = () => {
     <div className="w-full h-full">
       <input type="file" name="file" accept=".csv" onChange={handleFileInput} />
       {treeData ? (
-        <div id="treeWrapper" style={{ width: "100%", height: "100vh" }}>
+        <div id="treeWrapper" style={{ width: "100vw", height: "100vh" }}>
           <Tree data={treeData} />
         </div>
-      ): <span>Only CSV files are supported</span>}
+      ) : (
+        <span>Only CSV files are supported</span>
+      )}
     </div>
   );
 };

@@ -36,6 +36,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   rules: {
+    "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/return-await": "error",
     "no-console": "warn",
     "react/prefer-read-only-props": "warn",
