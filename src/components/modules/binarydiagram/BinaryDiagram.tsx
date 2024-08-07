@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Papa from "papaparse";
 import Tree from "react-d3-tree";
 import { CSVRowData, TreeNode, BinaryTreeContext } from "@/types";
-import LOGGER from "@utils/Logger";
-
+import { LOGGER, processRows } from "@/utils";
 /** Example tree to showcase website functions */
 const defaultTree: TreeNode = {
   name: "Root",
@@ -75,67 +74,6 @@ const defaultTree: TreeNode = {
   ],
 };
 
-
-/** Function to create a new node */
-const createNode = (row: CSVRowData, level: number): TreeNode => ({
-  name: row[`Part Level ${String(level)}` as keyof CSVRowData].trim(),
-  attributes: {
-    picture: row.Picture,
-    materialType: row["Material Type(s)"],
-    quantity: row["Quantity of Parts"],
-    totalWeight: row["Total Weight (kg)"],
-    materialCode: row["Material Code(s)"],
-  },
-  children: [],
-});
-
-/** Function to process rows and build the tree, creates a new Tree object */
-const processRows = (rows: CSVRowData[], fileName: string): TreeNode => {
-  const tree: TreeNode = {
-    name: fileName,
-    children: [],
-    attributes: {
-      picture: "",
-      materialType: "",
-      quantity: "",
-      totalWeight: "",
-      materialCode: "",
-    },
-  };
-
-  const addRowToTree = (tree: TreeNode, row: CSVRowData) => {
-    let currentNode = tree;
-    // Number of root levels / part levels in excel sheets, including root level zero
-    const rootLevels = 4;
-
-    for (let level = 0; level <= rootLevels; level++) {
-      const part =
-        row[`Part Level ${String(level)}` as keyof CSVRowData].trim();
-
-      if (!part) break; // If the part level is empty, that's the correct level to stop
-
-      // Saves the predicate value if found and undefined otherwise
-      let childNode = currentNode.children.find((child) => child.name === part);
-
-      if (childNode) {
-        LOGGER.info(`Found existing node: ${childNode.name}`);
-      } else {
-        // Create and push new node if no matching childnode was found
-        childNode = createNode(row, level);
-        currentNode.children.push(childNode);
-      }
-
-      // Move to the next level
-      currentNode = childNode;
-    }
-  };
-
-  rows.forEach((row) => {
-    addRowToTree(tree, row);
-  });
-
-  return tree;
-};
 
 const BinaryDiagram: React.FC = () => {
   const [treeData, setTreeData] = useState<TreeNode>(defaultTree);
