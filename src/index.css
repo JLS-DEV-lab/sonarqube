@@ -15,4 +15,18 @@
         height: 100%;
         width: 100%;
       }
+
+      .node__root > circle {
+        fill: #5F249F;
+      }
+      
+      .node__branch > circle {
+        fill: #006975;
+      }
+      
+      .node__leaf > circle {
+        fill: #63666A;
+        /* Let's also make the radius of leaf nodes larger */
+        r: 40;
+      }
 }
