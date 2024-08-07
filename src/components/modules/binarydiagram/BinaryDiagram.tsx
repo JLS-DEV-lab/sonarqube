@@ -1,8 +1,80 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import Tree from "react-d3-tree";
-import { CSVRowData, TreeNode } from "@/types";
+import { CSVRowData, TreeNode, BinaryTreeContext } from "@/types";
 import LOGGER from "@utils/Logger";
+
+/** Example tree to showcase website functions */
+const defaultTree: TreeNode = {
+  name: "Root",
+  attributes: {
+    picture: "",
+    materialType: "",
+    quantity: "",
+    totalWeight: "",
+    materialCode: "",
+  },
+  children: [
+    {
+      name: "A",
+      attributes: {
+        picture: "",
+        materialType: "",
+        quantity: "",
+        totalWeight: "",
+        materialCode: "",
+      },
+      children: [
+        {
+          name: "B",
+          attributes: {
+            picture: "",
+            materialType: "",
+            quantity: "",
+            totalWeight: "",
+            materialCode: "",
+          },
+          children: [
+            {
+              name: "C",
+              attributes: {
+                picture: "",
+                materialType: "",
+                quantity: "",
+                totalWeight: "",
+                materialCode: "",
+              },
+              children: [],
+            },
+            {
+              name: "D",
+              attributes: {
+                picture: "",
+                materialType: "",
+                quantity: "",
+                totalWeight: "",
+                materialCode: "",
+              },
+              children: [],
+            },
+          ],
+        },
+        {
+          name: "E",
+          attributes: {
+            picture: "",
+            materialType: "",
+            quantity: "",
+            totalWeight: "",
+            materialCode: "",
+          },
+          children: [],
+        },
+      ],
+    },
+  ],
+};
+
 
 /** Function to create a new node */
 const createNode = (row: CSVRowData, level: number): TreeNode => ({
@@ -66,7 +138,7 @@ const processRows = (rows: CSVRowData[], fileName: string): TreeNode => {
 };
 
 const BinaryDiagram: React.FC = () => {
-  const [treeData, setTreeData] = useState<TreeNode | null>(null);
+  const [treeData, setTreeData] = useState<TreeNode>(defaultTree);
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files === null) return;
@@ -92,7 +164,6 @@ const BinaryDiagram: React.FC = () => {
   return (
     <div className="w-full h-full">
       <input type="file" name="file" accept=".csv" onChange={handleFileInput} />
-      {treeData ? (
         <div id="treeWrapper" style={{ width: "100vw", height: "100vh" }}>
           <Tree
             data={treeData}
@@ -106,9 +177,6 @@ const BinaryDiagram: React.FC = () => {
             pathFunc="step"
           />
         </div>
-      ) : (
-        <span>Only CSV files are supported</span>
-      )}
     </div>
   );
 };
