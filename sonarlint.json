@@ -5,6 +5,7 @@
     },
     "rules": {
       "javascript:S1128": "on",
-      "javascript:S1481": "on"
+      "javascript:S1481": "on",
+      "javascript:S5256": "on"
     }
 }

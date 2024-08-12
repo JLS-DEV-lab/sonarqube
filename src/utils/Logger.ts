@@ -47,7 +47,7 @@ export class ConsoleLogger implements Logger {
     }
 }
 
-const LOGGER: Logger = new ConsoleLogger(
+export const LOGGER: Logger = new ConsoleLogger(
     import.meta.env.MODE === "development" ? LogLevel.DEBUG : LogLevel.WARN
 );
 
