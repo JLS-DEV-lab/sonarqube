@@ -27,20 +27,26 @@ const BinaryDiagram: React.FC = () => {
       <circle r={15} fill="#5F249F" onClick={toggleNode} />
       <foreignObject {...foreignObjectProps}>
         <div className="relative width-[250px] height-[150px] bg-white opacity-90 rounded-lg p-4">
-          <h1 className="text-lg text-[#5F249F] font-bold text-center uppercase mb-4">{nodeDatum.name}</h1>
+          <h1 className="text-lg text-[#5F249F] font-bold text-center uppercase mb-4">
+            {nodeDatum.name}
+          </h1>
           <table className="table-auto w-full">
             <tbody>
-              {Object.entries(nodeDatum.attributes ?? {}).map(([key, value]) => (
-                <tr key={key}>
-                  <InputField
-                    name={key}
-                    title={key}
-                    value={value}
-                    required={true}
-                    onChange={setBinaryTree(nodeDatum, key, value.toString())}
-                  />
-                </tr>
-              ))}
+              {Object.entries(nodeDatum.attributes ?? {}).map(
+                ([key, value]) => (
+                  <tr key={key}>
+                    <InputField
+                      name={key}
+                      title={key}
+                      value={value}
+                      required={true}
+                      onChange={(attributeName, newValue) => {
+                        setBinaryTree(nodeDatum, attributeName, newValue);
+                      }}
+                    />
+                  </tr>
+                )
+              )}
               <tr>
                 <td className="items-center">
                   <button

@@ -21,7 +21,7 @@ interface Props {
   /* Marks a input field with an aterisk */
   required?: Message | ValidationRule<boolean>;
   /* onChange handler function for updation a input value */
-  onChange?: (nodeName: string, key: string, value: string) => void;
+  onChange?: (key: string, value: string) => void;
 }
 
 const InputField = ({

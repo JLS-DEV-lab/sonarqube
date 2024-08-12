@@ -5,18 +5,8 @@ export type BinaryTreeContext = {
 
     /* State */
     binaryTree: RawNodeDatum;
-    setBinaryTree: (nodeName: RawNodeDatum, attributeName: string, value: string) => {
-        if (node.name === targetName) {
-            node.attributes = { ...node.attributes, ...newAttributes };
-          }
-        
-          if (node.children) {
-            node.children = node.children.map(child => updateOrgChart(child, targetName, newAttributes));
-          }
-        
-          return node;
-    };
-
+    setBinaryTree: (nodeDatum: RawNodeDatum, attributeName: string, value: string) => void;
+    
     /* API Keys */
 
     /* Form data */

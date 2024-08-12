@@ -1,4 +1,4 @@
-import { TreeNode } from "@/types";
+import { LOGGER } from "@/utils";
 import { Navbar } from "@modules";
 import { useState } from "react";
 import { RawNodeDatum } from "react-d3-tree";
@@ -90,6 +90,39 @@ const Homepage = ({ children }: Readonly<Props>) => {
 
   /* Form data */
 
+  /** Function to update a node in the binary tree structure 
+   * @param nodeDatum - The node to be updated
+   * @param attributeName - The attribute to be updated
+   * @param value - The new value of the attribute
+   * returns void and updating the binary tree context state
+  */
+  const updateTreeNode = (nodeDatum: RawNodeDatum, attributeName: string, value: string) => {
+    const updateNode = (node: RawNodeDatum): RawNodeDatum => {
+      // node names are unique in DB environment, that's why we can use it for comparision here
+      if (node.name === nodeDatum.name) {
+        return {
+          ...node,
+          attributes: {
+            ...node.attributes,
+            [attributeName]: value,
+          },
+        };
+      }
+      if (node.children) {
+        return {
+          ...node,
+          children: node.children.map(updateNode),
+        };
+      } else {
+        LOGGER.error("Node not found in binary tree");
+      }
+
+      return node;
+    };
+
+    setBinaryTree(updateNode(binaryTree));
+  };
+
   return (
     <div className="h-full w-full flex flex-col">
       <Navbar />
@@ -100,7 +133,7 @@ const Homepage = ({ children }: Readonly<Props>) => {
 
           /*State */
           binaryTree,
-          setBinaryTree,
+          setBinaryTree: updateTreeNode,
 
           /* API Keys */
 
