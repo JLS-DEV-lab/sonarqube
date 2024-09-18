@@ -1,74 +1,85 @@
+import { TreeNode } from "@/types";
 import { LOGGER } from "@/utils";
 import { Navbar } from "@modules";
 import { useState } from "react";
-import { RawNodeDatum } from "react-d3-tree";
 import { Outlet } from "react-router-dom";
 
 //Default tree to showcase website functions
-const defaultTree: RawNodeDatum = {
+const defaultTree: TreeNode = {
   name: "Root",
   attributes: {
-    "Picture": "https://your-image-url.com/root.png",
-    "Material Type": "plastic material",
-    "Quantity of Parts": "2",
-    "Total Weight (kg)": "0.2",
-    "Material Code (s)": "DUS-8943",
+    "Material Code": "ROOT-001",
+    "Color": "Black",
+    "Quantity": 1,
+    "Type": "Composite Material",
+    "Size": 100,
+    "Weight": 15.0,
+    "Description": "This is the root component.",
   },
   children: [
     {
-      name: "A",
+      name: "Child A",
       attributes: {
-        Picture: "https://your-image-url.com/a.png",
-        materialType: "metal",
-        quantity: "5",
-        totalWeight: "1.0",
-        materialCode: "MET-1234",
+        "Material Code": "CH-A-002",
+        "Color": "Red",
+        "Quantity": 2,
+        "Type": "Metal",
+        "Size": 50,
+        "Weight": 8.0,
+        "Description": "This is child A component.",
       },
       children: [
         {
-          name: "B",
+          name: "Child B",
           attributes: {
-            picture: "https://your-image-url.com/b.png",
-            materialType: "wood",
-            quantity: "10",
-            TotalWeight: "3.0",
-            materialCode: "WOD-5678",
+            "Material Code": "CH-B-003",
+            "Color": "Blue",
+            "Quantity": 4,
+            "Type": "Plastic",
+            "Size": 30,
+            "Weight": 3.0,
+            "Description": "This is child B component.",
           },
           children: [
             {
-              name: "C",
+              name: "Child C",
               attributes: {
-                picture: "https://your-image-url.com/c.png",
-                materialType: "glass",
-                quantity: "7",
-                totalWeight: "2.5",
-                materialCode: "GLS-9101",
+                "Material Code": "CH-C-004",
+                "Color": "Green",
+                "Quantity": 1,
+                "Type": "Wood",
+                "Size": 20,
+                "Weight": 1.5,
+                "Description": "This is child C component.",
               },
-              children: [],
-            },
-            {
-              name: "D",
-              attributes: {
-                picture: "https://your-image-url.com/d.png",
-                materialType: "ceramic",
-                quantity: "4",
-                totalWeight: "1.2",
-                materialCode: "CER-1121",
-              },
-              children: [],
             },
           ],
         },
+      ],
+    },
+    {
+      name: "Child D",
+      attributes: {
+        "Material Code": "CH-D-005",
+        "Color": "Yellow",
+        "Quantity": 3,
+        "Type": "Glass",
+        "Size": 40,
+        "Weight": 5.0,
+        "Description": "This is child D component.",
+      },
+      children: [
         {
-          name: "E",
+          name: "Child E",
           attributes: {
-            picture: "https://your-image-url.com/e.png",
-            materialType: "rubber",
-            quantity: "8",
-            totalWeight: "0.8",
-            materialCode: "RUB-3141",
+            "Material Code": "CH-E-006",
+            "Color": "Purple",
+            "Quantity": 2,
+            "Type": "Ceramic",
+            "Size": 25,
+            "Weight": 2.0,
+            "Description": "This is child E component.",
           },
-          children: [],
         },
       ],
     },
@@ -80,65 +91,56 @@ interface Props {
 }
 
 const Homepage = ({ children }: Readonly<Props>) => {
+  const [binaryTree, setBinaryTreeState] = useState<TreeNode>(defaultTree);
 
-  /* References to child components */
+  const setBinaryTree = (
+    nodeDatum: TreeNode | null,
+    attributeName?: string,
+    value?: string
+  ) => {
+    if (nodeDatum && attributeName && value !== undefined) {
+      const updateNode = (node: TreeNode): TreeNode => {
+        if (node.name === nodeDatum.name) {
+          return {
+            ...node,
+            attributes: {
+              ...node.attributes,
+              [attributeName]: value,
+            },
+          };
+        }
 
-  /* State variables */
-  const [binaryTree, setBinaryTree] = useState<RawNodeDatum>(defaultTree);
+        if (node.children) {
+          return {
+            ...node,
+            children: node.children.map(updateNode),
+          };
+        }
 
-  /* API Keys */
+        return node;
+      };
 
-  /* Form data */
-
-  /** Function to update a node in the binary tree structure 
-   * @param nodeDatum - The node to be updated
-   * @param attributeName - The attribute to be updated
-   * @param value - The new value of the attribute
-   * returns void and updating the binary tree context state
-  */
-  const updateTreeNode = (nodeDatum: RawNodeDatum, attributeName: string, value: string) => {
-    const updateNode = (node: RawNodeDatum): RawNodeDatum => {
-      // node names are unique in DB environment, that's why we can use it for comparision here
-      if (node.name === nodeDatum.name) {
-        return {
-          ...node,
-          attributes: {
-            ...node.attributes,
-            [attributeName]: value,
-          },
-        };
-      }
-      if (node.children) {
-        return {
-          ...node,
-          children: node.children.map(updateNode),
-        };
-      } else {
-        LOGGER.error("Node not found in binary tree");
-      }
-
-      return node;
-    };
-
-    setBinaryTree(updateNode(binaryTree));
+      setBinaryTreeState((prevTree) => updateNode(prevTree));
+    } else if (nodeDatum !== null) {
+      // Full tree update with the new nodeDatum
+      setBinaryTreeState(nodeDatum);
+    } else {
+      LOGGER.error("Invalid arguments or invalid action call for setBinaryTree");
+    }
   };
 
   return (
     <div className="h-full w-full flex flex-col">
       <Navbar />
       <main className="flex-grow">
-        {children ?? <Outlet
-        context={{
-          /* Refs */
-
-          /*State */
-          binaryTree,
-          setBinaryTree: updateTreeNode,
-
-          /* API Keys */
-
-          /* Form data */          
-        }} />}
+        {children ?? (
+          <Outlet
+            context={{
+              binaryTree,
+              setBinaryTree,
+            }}
+          />
+        )}
       </main>
     </div>
   );

@@ -5,7 +5,11 @@ export type BinaryTreeContext = {
 
     /* State */
     binaryTree: RawNodeDatum;
-    setBinaryTree: (nodeDatum: RawNodeDatum, attributeName: string, value: string) => void;
+    setBinaryTree: (
+        update: RawNodeDatum | null, // If null, replace the entire tree
+        attributeName?: string,
+        value?: string
+    ) => void;
     
     /* API Keys */
 
