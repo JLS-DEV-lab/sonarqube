@@ -1,7 +1,6 @@
 // Custom input field design with validity checks
 import { HTMLInputTypeAttribute, useState } from "react";
 import { Message, ValidationRule } from "react-hook-form";
-import Papa from "papaparse";
 import { LOGGER } from "@/utils";
 
 // validated input value field types
@@ -60,7 +59,7 @@ const InputField = ({
       event.target instanceof HTMLInputElement &&
       event.target.type === "file"
     ) {
-      const file = event.target.files?.[0];
+      /*const file = event.target.files?.[0];
       if (file) {
         Papa.parse(file, {
           header: true,
@@ -73,7 +72,7 @@ const InputField = ({
             LOGGER.error("Error parsing CSV file", error);
           },
         });
-      }
+      }*/ // Feature not implemented yet, maby will be used later for an better architecture
     } else {
       LOGGER.error("Input type action is not suported");
     }

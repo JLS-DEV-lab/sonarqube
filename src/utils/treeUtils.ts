@@ -1,72 +1,79 @@
 import { CSVRowData } from "@/types";
-import LOGGER from "@utils/Logger";
 import { RawNodeDatum } from "react-d3-tree";
 
 /** Function to create a new node
- * @param row: The row data from the CSV file
- * @param level: The level of the node in the tree
+ * @param name: The name of the node
+ * @param attributes: The attributes of the node
  * @returns The created tree node
  */
-const createNode = (row: CSVRowData, level: number): RawNodeDatum => ({
-    name: row[`Part Level ${String(level)}` as keyof CSVRowData].trim(),
-    attributes: {
-      picture: row.Picture,
-      materialType: row["Material Type(s)"],
-      quantity: row["Quantity of Parts"],
-      totalWeight: row["Total Weight (kg)"],
-      materialCode: row["Material Code(s)"],
-    },
+const createNode = (name: string, attributes = {}): RawNodeDatum => ({
+  name,
+  attributes: {
+    picture: '',
+    materialType: '',
+    quantity: '',
+    totalWeight: '',
+    materialCode: '',
+    ...attributes, // Merge provided attributes with default attributes
+  },
+  children: [], // Initialize children as an empty array
+});
+
+/** Function to create a new tree object out of CSV rows
+ * @param rows: The rows of CSV data as an array
+ * @param fileName: File name of the CSV file
+ * @returns The whole tree object
+ */
+export const processRows = (
+  rows: CSVRowData[],
+  fileName: string
+): RawNodeDatum => {
+  const tree: RawNodeDatum = {
+    name: fileName,
     children: [],
+    attributes: {},
+  };
+
+  const addRowToTree = (tree: RawNodeDatum, row: CSVRowData) => {
+    let currentNode = tree;
+    const rootLevels = 4;
+
+    for (let level = 0; level <= rootLevels; level++) {
+      const part = row[`Part Level ${String(level)}` as keyof CSVRowData].trim();
+
+      if (!part) break; // If the part level is empty, stop
+
+      let childNode = currentNode.children?.find(child => child.name === part);
+
+      if (!childNode) {
+        const nextPart = row[`Part Level ${String(level + 1)}` as keyof CSVRowData];
+        const isLastLevel = !nextPart;
+
+        // Add attributes to this node if it's the last level given
+        const attributes = isLastLevel
+          ? {
+              picture: row.Picture,
+              materialType: row["Material Type(s)"],
+              quantity: row["Quantity of Parts"],
+              totalWeight: row["Total Weight (kg)"],
+              materialCode: row["Material Code(s)"],
+            }
+          : {};
+
+        // Create a new child node and push it to the current node's children
+        childNode = createNode(part, attributes);
+        if (!currentNode.children) currentNode.children = [];
+        currentNode.children.push(childNode);
+      }
+
+      // Move to the next sub level
+      currentNode = childNode;
+    }
+  };
+
+  rows.forEach((row) => {
+    addRowToTree(tree, row);
   });
 
-  /** Function to create a new tree object out of CSV rows
-   * @param rows: The rows of CSV data as an array
-   * @param fileName: File name of the CSV file
-   * @returns The whole tree object
-   */
-  export const processRows = (rows: CSVRowData[], fileName: string): RawNodeDatum => {
-    const tree: RawNodeDatum = {
-      name: fileName,
-      children: [],
-      attributes: {
-        picture: "",
-        materialType: "",
-        quantity: "",
-        totalWeight: "",
-        materialCode: "",
-      },
-    };
-  
-    const addRowToTree = (tree: RawNodeDatum, row: CSVRowData) => {
-      let currentNode = tree;
-      // Number of root levels / part levels in excel sheets, including root level zero
-      const rootLevels = 4;
-  
-      for (let level = 0; level <= rootLevels; level++) {
-        const part =
-          row[`Part Level ${String(level)}` as keyof CSVRowData].trim();
-  
-        if (!part) break; // If the part level is empty, that's the correct level to stop
-  
-        // Saves the predicate value if found and undefined otherwise
-        let childNode = currentNode.children?.find((child) => child.name === part);
-  
-        if (childNode) {
-          LOGGER.info(`Found existing node: ${childNode.name}`);
-        } else {
-          // Create and push new node if no matching childnode was found
-          childNode = createNode(row, level);
-          currentNode.children?.push(childNode); // Why is undefined poss here?
-        }
-  
-        // Move to the next level
-        currentNode = childNode;
-      }
-    };
-  
-    rows.forEach((row) => {
-      addRowToTree(tree, row);
-    });
-  
-    return tree;
-  };
+  return tree;
+};

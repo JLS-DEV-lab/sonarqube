@@ -18,7 +18,7 @@ const attributeTypeMapping: Record<keyof TreeNode["attributes"], string> = {
 
 const BinaryDiagram: React.FC = () => {
   const [translate, containerRef] = useCenteredTree();
-  const { binaryTree, setBinaryTree } = useOutletContext<BinaryTreeContext>();
+  const { binaryTree } = useOutletContext<BinaryTreeContext>();
   const nodeSize = { x: 520, y: 650 };
   const separation = { siblings: 2, nonSiblings: 2 };
   const foreignObjectProps = { width: nodeSize.x, height: nodeSize.y, x: 20 };
